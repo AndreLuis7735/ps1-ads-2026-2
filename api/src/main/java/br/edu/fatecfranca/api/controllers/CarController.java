@@ -15,16 +15,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.fatecfranca.api.entities.Car;
 import br.edu.fatecfranca.api.repositories.CarRepository;
+import br.edu.fatecfranca.api.services.CustomerService;
 
 @RestController
 @RequestMapping("/cars")
 public class CarController {
 
-    private final CarRepository repository;
+   // private final CarRepository repository;
 
-    public CarController(CarRepository repository) {
-        this.repository = repository;
-    }
+    //public CarController(CarRepository repository) {
+       // this.repository = repository;
+   // }
+      private final CustomerService service;
+
+
+   public CarController(CarService service) {
+       this.service = service;
+   }
 
     @PostMapping
     public ResponseEntity<Car> create(@RequestBody Car car) {
