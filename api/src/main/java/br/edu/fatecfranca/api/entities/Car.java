@@ -21,38 +21,34 @@ public class Car {
     @Column(nullable = false)
     private String brand;
 
-    @Column(name = "model", nullable = false, unique = true)
+    @Column(nullable = false)
     private String model;
 
-    // 1. Corrigido para String
-    @Column(name = "color")
+    @Column(nullable = false)
     private String color;
 
     @Column(name = "year_manufacture", nullable = false)
     private Integer yearManufacture;
 
-    // 2. Corrigido para Boolean
-    @Column(name = "imported", nullable = false)
+    @Column(nullable = false)
     private Boolean imported;
 
-    @Column(nullable = true)
+    @Column(nullable = false, unique = true)
     private String plates;
 
-    @Column(nullable = false)
-    private String district;
-
-    // 3. Corrigido para LocalDate
-    @Column(name = "selling_date", nullable = false)
+    @Column(name = "selling_date")
     private LocalDate sellingDate;
 
-    // 4. Removido @JdbcTypeCode(SqlTypes.CHAR)
     @Column(name = "selling_price", precision = 12, scale = 2)
     private BigDecimal sellingPrice;
 
+    @Column(name = "customer_id")
+    private Long customerId;
+
     public Car() {
+
     }
 
-    // Getters e Setters Atualizados
     public Long getId() {
         return id;
     }
@@ -109,14 +105,6 @@ public class Car {
         this.plates = plates;
     }
 
-    public String getDistrict() {
-        return district;
-    }
-
-    public void setDistrict(String district) {
-        this.district = district;
-    }
-
     public LocalDate getSellingDate() {
         return sellingDate;
     }
@@ -131,5 +119,13 @@ public class Car {
 
     public void setSellingPrice(BigDecimal sellingPrice) {
         this.sellingPrice = sellingPrice;
+    }
+
+    public Long getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
     }
 }
