@@ -38,6 +38,10 @@ public class CarService {
        return repository.findById(id);
    }
 
+   public Car save(Car car) {
+         return repository.save(car);
+   }
+
 
    public Car update(Car car) {
        return repository.save(car);
@@ -52,4 +56,6 @@ public class CarService {
    public void deleteById(Long id) {
        repository.deleteById(id);
    }
+
+
 }
