@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.edu.fatecfranca.api.entities.User;
 import br.edu.fatecfranca.api.services.UserService;
 import br.edu.fatecfranca.api.repositories.UserRepository;
+import br.edu.fatecfranca.api.dtos.UserRequest;
 
 @RestController
 @RequestMapping("/users")

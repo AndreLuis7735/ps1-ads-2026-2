@@ -5,6 +5,9 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import br.edu.fatecfranca.api.dtos.CarRequest;
+import br.edu.fatecfranca.api.dtos.UserRequest;
+import br.edu.fatecfranca.api.entities.Car;
 import br.edu.fatecfranca.api.entities.User;
 import br.edu.fatecfranca.api.repositories.UserRepository;
 
@@ -12,6 +15,18 @@ import br.edu.fatecfranca.api.repositories.UserRepository;
 public class UserService {
 
     private final UserRepository repository;
+
+      private void copyToEntity(
+       UserRequest request,
+       User user) {
+
+
+       user.setFullname(request.fullname());
+       user.setUsername(request.username());
+       user.setEmail(request.email());
+       user.setPassword(request.password());
+       user.setIsAdmin(request.isAdmin());
+   }
 
     public UserService(UserRepository repository) {
         this.repository = repository;

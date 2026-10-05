@@ -44,6 +44,8 @@ public class Car {
     @Column(name = "selling_price", precision = 12, scale = 2)
     private BigDecimal sellingPrice;
 
+
+
    // @Column(name = "customer_id")
    // private Long customerId;
 
@@ -92,9 +94,11 @@ public class Car {
         return yearManufacture;
     }
 
-    public void setYearManufacture(Integer yearManufacture) {
+    public void  setYearManufacture(){
         this.yearManufacture = yearManufacture;
     }
+
+
 
     public Boolean getImported() {
         return imported;

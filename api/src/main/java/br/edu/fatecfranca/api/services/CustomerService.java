@@ -6,6 +6,7 @@ import java.util.Optional;
 
 
 import org.springframework.stereotype.Service;
+import br.edu.fatecfranca.api.dtos.CustomerRequest;
 
 
 import br.edu.fatecfranca.api.entities.Customer;
@@ -17,6 +18,24 @@ public class CustomerService {
 
 
    private final CustomerRepository repository;
+
+   private void copyToEntity(
+    CustomerRequest request,
+    Customer customer) {
+
+
+    customer.setName(request.name());
+    customer.setIdentDocument(request.identDocument());
+    customer.setBirthDate(request.birthDate());
+    customer.setStreetName(request.streetName());
+    customer.setHouseNumber(request.houseNumber());
+    customer.setComplements(request.complements());
+    customer.setDistrict(request.district());
+    customer.setMunicipality(request.municipality());
+    customer.setState(request.state());
+    customer.setPhone(request.phone());
+    customer.setEmail(request.email());
+} 
 
 
    public CustomerService(CustomerRepository repository) {

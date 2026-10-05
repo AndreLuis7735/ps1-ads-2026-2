@@ -18,6 +18,7 @@ import br.edu.fatecfranca.api.entities.Customer;
 import br.edu.fatecfranca.api.repositories.CarRepository;
 import br.edu.fatecfranca.api.services.CarService;
 import br.edu.fatecfranca.api.services.CustomerService;
+import br.edu.fatecfranca.api.dtos.CarRequest;
 
 @RestController
 @RequestMapping("/cars")

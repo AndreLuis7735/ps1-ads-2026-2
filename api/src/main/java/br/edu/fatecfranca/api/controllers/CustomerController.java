@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.fatecfranca.api.entities.Customer;
 import br.edu.fatecfranca.api.repositories.CustomerRepository;
+import br.edu.fatecfranca.api.dtos.CustomerRequest;
 import br.edu.fatecfranca.api.services.CustomerService;
 
 
