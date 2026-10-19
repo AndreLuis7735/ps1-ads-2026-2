@@ -20,6 +20,8 @@ import br.edu.fatecfranca.api.services.CarService;
 import br.edu.fatecfranca.api.services.CustomerService;
 import br.edu.fatecfranca.api.dtos.CarRequest;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/cars")
 public class CarController {
@@ -45,7 +47,7 @@ public class CarController {
   //  }
 
    @PostMapping
-   public ResponseEntity<Car> create(@RequestBody Car car) {
+   public ResponseEntity<Car> create(@Valid @RequestBody Car car) {
 
 
        Car savedCar = service.save(car);
@@ -74,7 +76,7 @@ public class CarController {
     //}
 
      @GetMapping("/{id}")
-   public ResponseEntity<Car> findById(@PathVariable Long id) {
+   public ResponseEntity<Car> findById(@Valid @PathVariable Long id) {
 
 
        return service.findById(id)
@@ -96,7 +98,7 @@ public class CarController {
      @PutMapping("/{id}")
    public ResponseEntity<Car> update(
            @PathVariable Long id,
-           @RequestBody Car car) {
+           @Valid @RequestBody Car car) {
 
 
        if (!service.existsById(id)) {
@@ -122,7 +124,7 @@ public class CarController {
         //return ResponseEntity.noContent().build();
     //}
     @DeleteMapping("/{id}")
-   public ResponseEntity<Void> delete(@PathVariable Long id) {
+   public ResponseEntity<Void> delete(@Valid @PathVariable Long id) {
 
 
        if (!service.existsById(id)) {

@@ -18,6 +18,8 @@ import br.edu.fatecfranca.api.services.UserService;
 import br.edu.fatecfranca.api.repositories.UserRepository;
 import br.edu.fatecfranca.api.dtos.UserRequest;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -29,7 +31,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> create(@RequestBody User user) {
+    public ResponseEntity<User> create(@Valid @RequestBody User user) {
         User savedUser = service.create(user);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -42,7 +44,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> findById(@PathVariable Long id) {
+    public ResponseEntity<User> findById(@Valid @PathVariable Long id) {
         return service.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -51,7 +53,7 @@ public class UserController {
     @PutMapping("/{id}")
     public ResponseEntity<User> update(
             @PathVariable Long id,
-            @RequestBody User user) {
+           @Valid  @RequestBody User user) {
 
         if (!service.existsById(id)) {
             return ResponseEntity.notFound().build();
@@ -62,7 +64,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@Valid @PathVariable Long id) {
 
         if (!service.existsById(id)) {
             return ResponseEntity.notFound().build();
