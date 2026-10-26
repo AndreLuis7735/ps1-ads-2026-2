@@ -1,35 +1,48 @@
 package br.edu.fatecfranca.api.services;
 
+
 import java.util.List;
 import java.util.Optional;
 
+
 import org.springframework.stereotype.Service;
 
-import br.edu.fatecfranca.api.dtos.CarRequest;
+
 import br.edu.fatecfranca.api.dtos.UserRequest;
-import br.edu.fatecfranca.api.entities.Car;
 import br.edu.fatecfranca.api.entities.User;
 import br.edu.fatecfranca.api.repositories.UserRepository;
+
+
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 
 @Service
 public class UserService {
 
-    private final UserRepository repository;
 
-      private void copyToEntity(
-       UserRequest request,
-       User user) {
+   private final UserRepository repository;
+   private final PasswordEncoder passwordEncoder;
 
 
+   public UserService(UserRepository repository, PasswordEncoder passwordEncoder) {
+       this.repository = repository;
+       this.passwordEncoder = passwordEncoder;
+   }
+
+
+   private void copyToEntity(UserRequest request, User user) {
        user.setFullname(request.fullname());
        user.setUsername(request.username());
        user.setEmail(request.email());
-       user.setPassword(request.password());
-       user.setIsAdmin(request.isAdmin());
+       // passwordEncoder gera o hash para a senha recebida
+       user.setPassword(passwordEncoder.encode(request.password()));
+       user.setIsAdmin(Boolean.TRUE.equals(request.isAdmin()));
    }
+
 
     public UserService(UserRepository repository) {
         this.repository = repository;
+        this.passwordEncoder = null;
     }
 
     public User create(User user) {
