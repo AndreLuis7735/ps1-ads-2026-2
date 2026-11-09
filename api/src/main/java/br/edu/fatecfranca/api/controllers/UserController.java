@@ -2,6 +2,8 @@ package br.edu.fatecfranca.api.controllers;
 
 import java.util.List;
 
+import br.edu.fatecfranca.api.dtos.UserRequest;
+import br.edu.fatecfranca.api.dtos.UserResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,10 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.fatecfranca.api.entities.User;
 import br.edu.fatecfranca.api.services.UserService;
-import br.edu.fatecfranca.api.repositories.UserRepository;
-import br.edu.fatecfranca.api.dtos.UserRequest;
 
 import jakarta.validation.Valid;
+
+import jakarta.validation.Valid;
+
+
+import br.edu.fatecfranca.api.dtos.LoginRequest;
+import br.edu.fatecfranca.api.dtos.UserResponse;
+
 
 @RestController
 @RequestMapping("/users")
@@ -30,42 +37,52 @@ public class UserController {
         this.service = service;
     }
 
-    @PostMapping
-    public ResponseEntity<User> create(@Valid @RequestBody User user) {
-        User savedUser = service.create(user);
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(savedUser);
+    @PostMapping("/login")
+    public ResponseEntity<UserResponse> login(
+            @Valid @RequestBody LoginRequest request) {
+ 
+ 
+        return service.authenticate(request)
+                .map(UserResponse::new)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity
+                        .status(HttpStatus.UNAUTHORIZED)
+                        .build());
     }
+ 
 
     @GetMapping
-    public List<User> findAll() {
-        return service.findAll();
+    public List<UserResponse> findAll() {
+        return service.findAll()
+                .stream()
+                .map(UserResponse::new)
+                .toList();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> findById(@Valid @PathVariable Long id) {
+    public ResponseEntity<UserResponse> findById(@PathVariable Long id) {
         return service.findById(id)
+                .map(UserResponse::new)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> update(
+    public ResponseEntity<UserResponse> update(
             @PathVariable Long id,
-           @Valid  @RequestBody User user) {
+            @Valid @RequestBody UserRequest request) {
 
         if (!service.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
 
-        user.setId(id);
-        return ResponseEntity.ok(service.update(user));
+        User updatedUser = service.update(id, request);
+
+        return ResponseEntity.ok(new UserResponse(updatedUser));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@Valid @PathVariable Long id) {
-
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         if (!service.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
@@ -74,4 +91,3 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 }
-
