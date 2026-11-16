@@ -31,34 +31,38 @@ import br.edu.fatecfranca.api.services.TokenService;
 
 
 
-@RestController
-@RequestMapping("/users")
-public class UserController {
-
-    private final UserService service;
-    private final TokenService tokenService;
-
-    public UserController(UserService service, TokenService tokenService) {
-        this.service = service;
-        this.tokenService = tokenService;
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(
-            @Valid @RequestBody LoginRequest request) {
+   @RestController
+   @RequestMapping("/users")
+   public class UserController {
+   
+   
+      private final UserService service;
+      private final TokenService tokenService;
+   
+   
+      public UserController(UserService service, TokenService tokenService) {
+          this.service = service;
+          this.tokenService = tokenService;
+      }
+   
+   
+      @PostMapping("/login")
+      public ResponseEntity<LoginResponse> login(
+              @Valid @RequestBody LoginRequest request) {
+   
+   
+          return service.authenticate(request)
+              .map(user -> new LoginResponse(
+                      tokenService.generate(user),
+                      new UserResponse(user)))
+              .map(ResponseEntity::ok)
+              .orElseGet(() -> ResponseEntity
+                      .status(HttpStatus.UNAUTHORIZED)
+                      .build());
+      }
+   
+    
  
- 
-                return service.authenticate(request)
-                .map(user -> new LoginResponse(
-                        tokenService.generate(user),
-                        new UserResponse(user)))
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity
-                        .status(HttpStatus.UNAUTHORIZED)
-                        .build());
-                }     
- 
-
     @GetMapping
     public List<UserResponse> findAll() {
         return service.findAll()
